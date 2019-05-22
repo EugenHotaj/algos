@@ -1,2 +1,2 @@
 # algos
-Various algorithms implemented in python. 
+Various, mostly statistical, algorithms in python. 
