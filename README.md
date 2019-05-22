@@ -1,2 +1,2 @@
 # algos
-Random algorithms implemented in python. 
+Various algorithms implemented in python. 
