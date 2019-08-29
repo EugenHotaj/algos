@@ -2,16 +2,18 @@
 
 import abc
 
+import torch
 import numpy as np
+
 
 class Module(object):
     """An abstract module representing a Neural Network layer.
 
     Attributes:
-        params: A list of parameters that the module uses to compute the 
+        params: A list of parameters that the module uses to compute the
             forward and backward passes. Each subclassing module must add its
             parameters to self.params.
-        gradients: A list of the same size as `params` which contains the 
+        gradients: A list of the same size as `params` which contains the
             gradients for the parameters. The gradients have the same ordering
             as the params, e.g. gradients[i] contains the gradient for
             params[i]. The gradients attribute is only set once `backward` has
@@ -51,6 +53,7 @@ class Module(object):
         self._inputs = None
         self.gradients = None
 
+
 class Linear(Module):
     """A linear Neural Network layer."""
 
@@ -59,7 +62,7 @@ class Linear(Module):
         self._w = np.random.normal(shape=(num_inputs, num_outputs))
         self._b = np.random.normal(shape=(num_outputs,))
         self.parameters = [self._w, self._b]
-        
+
     def __call__(self, inputs):
         super().__call__(self, inputs)
         return np.dot(inputs, self._w) + self._b
@@ -68,9 +71,9 @@ class Linear(Module):
         grad_inputs = np.dot(grad_outputs, self._w.T)
         dw, db = self.gradients if self.gradients else 0, 0
         dw += np.sum(
-                    np.expand_dims(grad_outputs,  axis=1) * 
-                    np.expand_dims(self._inputs, axis=-1), 
-                axis=0))
+            np.expand_dims(grad_outputs,  axis=1) *
+            np.expand_dims(self._inputs, axis=-1),
+            axis=0)
         db += np.sum(grad_outputs, axis=0)
         self.gradients = [dw, db]
         return grad_inputs
