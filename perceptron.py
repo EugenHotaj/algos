@@ -7,9 +7,10 @@ To run:
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 class PerceptronClassifier(object):
     """A perceptron classifier.
-    
+
     The perceptron update rule is extremely simple,
         if sign(w * x) != y:
             w += x * y
@@ -23,7 +24,7 @@ class PerceptronClassifier(object):
 
     def fit(self, X, y):
         self._classified = False
-        X = np.insert(X, 0, 1, axis=1) # Prepend bias to examples.
+        X = np.insert(X, 0, 1, axis=1)  # Prepend bias to examples.
         self._w = np.zeros_like(X[0])
         for _ in range(self._max_epochs):
             for x_, y_ in zip(X, y):
@@ -67,12 +68,13 @@ if __name__ == '__main__':
     clf.fit(X, y)
 
     # Plot the data points and decision boundary.
-    plt.scatter(X[:,0], X[:,1], c=y)
+    plt.scatter(X[:, 0], X[:, 1], c=y)
     w = clf.weights
     w[0] += .000001  # In case bias == 0.
     a = - (w[0] / w[2]) / (w[0] / w[1])
     b = - w[0] / w[2]
+
     def line(x):
-        return a * x + b  
+        return a * x + b
     plt.plot([-1, 1], [line(-1), line(1)], c='red')
     plt.show()

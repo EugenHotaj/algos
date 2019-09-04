@@ -46,7 +46,7 @@ def NMF_GD(M, inner_dim=3, steps=10000, lr=.001, lam=1e3, eps=1e-6):
 
 def _penalized_gradient(M, W, H, lam, eps):
     """The gradient of the penalized loss with respect to W and H.
-    
+
     The penalized loss is defined as:
         l = .5*norm(M - WH)^2 + \lamba * (.5*max(W, 0)^2 + .5*max(H, 0)^2)
     where we define norm to be the Frobenius norm and max(A, 0) is the element
@@ -99,7 +99,7 @@ def NMF_PGD(M, inner_dim=3, steps=10000, eps=1e-6):
 
 def _gradient(M, W, H):
     """The gradient of the loss with respect to W and H.
-    
+
     The loss is defined as:
         l = .5*norm(M - WH)^2
     where we define norm to be the Frobenius norm.

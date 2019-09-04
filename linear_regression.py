@@ -3,6 +3,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 def generate_data(m, b, num=1000):
     """Generates data in [0, 100] of the form y= m*x +b +\eps."""
     X = np.random.uniform(low=0, high=100, size=(num,))
@@ -23,24 +24,24 @@ def mse(weights, X, y):
     loss = np.sum(residual**2) / N
     grad = (-2/N) * np.sum(X_ * np.reshape(residual, (-1, 1)), axis=0)
     return loss, grad
-    
+
 
 if __name__ == '__main__':
     X, y = generate_data(m=2, b=5)
 
     # Run gradient descent.
-    weights = np.random.uniform(size=(2,)) # [bias, parameter]
+    weights = np.random.uniform(size=(2,))  # [bias, parameter]
     losses = []
     for i in range(10):
         loss, grad = mse(weights, X, y)
-        weights -= .0001 * grad 
+        weights -= .0001 * grad
         losses.append(loss)
     b, m = weights
 
     def line(x):
         return m * x + b
 
-    plt.figure(figsize=(10,5))
+    plt.figure(figsize=(10, 5))
 
     plt.subplot(121)
     plt.title("Linear Regression")
@@ -52,4 +53,3 @@ if __name__ == '__main__':
     plt.plot(list(range(len(losses))), losses)
 
     plt.show()
-

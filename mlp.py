@@ -6,27 +6,33 @@ Only supports 2 layers (linear, relu) and 1 loss (mse)."""
 import numpy as np
 import tensorflow as tf
 
+
 def linear(x, w, b):
     return np.dot(x, w) + b
+
 
 def linear_grad(do, x, w, b):
     dx = np.dot(do, w.T)
     dw = np.expand_dims(do, axis=1) * np.expand_dims(x, axis=-1)
     dw = np.sum(dw, axis=0)
     db = np.sum(do, axis=0)
-    return dx, dw, db 
+    return dx, dw, db
+
 
 def relu(x):
     return np.clip(x, 0, x)
 
+
 def relu_grad(do, x):
     return do * (x > 0).astype(np.float32)
+
 
 def mse(yhat, y):
     return np.mean((np.squeeze(yhat) - y)**2)
 
+
 def mse_grad(yhat, y):
-    return 2 *  np.expand_dims(np.squeeze(yhat) - y, axis=-1) / yhat.shape[0]
+    return 2 * np.expand_dims(np.squeeze(yhat) - y, axis=-1) / yhat.shape[0]
 
 
 if __name__ == '__main__':
@@ -74,7 +80,7 @@ if __name__ == '__main__':
     tf_yhat = tf.nn.relu(tf.matmul(tf_x3, tf_w3) + tf_b3)
     tf_loss = tf.reduce_mean(tf.square(tf.squeeze(tf_yhat) - tf_y))
     gradients = tf.gradients(
-            tf_loss, [tf_yhat, tf_b3, tf_w3, tf_b2, tf_w2, tf_b1, tf_w1]) 
+        tf_loss, [tf_yhat, tf_b3, tf_w3, tf_b2, tf_w2, tf_b1, tf_w1])
 
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
@@ -94,7 +100,8 @@ if __name__ == '__main__':
         assert np.abs(loss - sess.run(tf_loss)) < eps
 
         # Check that the gradients are equal.
-        tf_dyhat, tf_db3, tf_dw3, tf_db2, tf_dw2, tf_db1, tf_dw1 = sess.run(gradients)
+        tf_dyhat, tf_db3, tf_dw3, tf_db2, tf_dw2, tf_db1, tf_dw1 = sess.run(
+            gradients)
         assert np.all(np.abs(dyhat - tf_dyhat) < eps)
         assert np.all(np.abs(db3 - tf_db3) < eps)
         assert np.all(np.abs(dw3 - tf_dw3) < eps)
@@ -102,6 +109,3 @@ if __name__ == '__main__':
         assert np.all(np.abs(dw2 - tf_dw2) < eps)
         assert np.all(np.abs(db1 - tf_db1) < eps)
         assert np.all(np.abs(dw1 - tf_dw1) < eps)
-
-
-

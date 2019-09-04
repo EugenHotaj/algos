@@ -3,6 +3,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 def normal_sample(mean=0, std_dev=1):
     """Generates Gaussian noise using the Box-Muller Transform."""
     u = np.random.uniform()
@@ -19,5 +20,3 @@ if __name__ == '__main__':
         x.append(normal_sample(mean=-1, std_dev=3))
     plt.hist(x, bins=100)
     plt.show()
-
-    

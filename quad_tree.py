@@ -8,11 +8,12 @@ import numpy as np
 
 Point = collections.namedtuple('Point', 'x y')
 
+
 class Rectangle(collections.namedtuple('Rectangle', 'x y w h')):
 
     def contains(self, point):
         """Checks if the given point is contained within the rectangle."""
-        return (self.x <= point.x and self.x + self.w >= point.x and 
+        return (self.x <= point.x and self.x + self.w >= point.x and
                 self.y <= point.y and self.y + self.h >= point.y)
 
     def intersects(self, other):
@@ -21,6 +22,7 @@ class Rectangle(collections.namedtuple('Rectangle', 'x y w h')):
                 self.x + self.w > other.x and
                 self.y < other.y + other.h and
                 self.y + self.h > other.y)
+
 
 class QuadTree(object):
     def __init__(self, boundary, size=5):
@@ -31,7 +33,7 @@ class QuadTree(object):
 
     def insert(self, point):
         """Insert the point into the QuadTree in O(logN) time. 
-        
+
         If the tree is at capacity it is split up into 4 subtrees, one for each
         quadrant.
 
@@ -60,7 +62,7 @@ class QuadTree(object):
             self._children.append(QuadTree(bl, size=self._size))
             self._children.append(QuadTree(br, size=self._size))
         for child in self._children:
-            # Only insert the point in one child if it falls on a boundary 
+            # Only insert the point in one child if it falls on a boundary
             # between two points.
             if child.insert(point):
                 return True
@@ -75,6 +77,7 @@ class QuadTree(object):
             for child in self._children:
                 points.extend(child.query(boundary))
         return points
+
 
 if __name__ == '__main__':
     # Generate points in (-100, 100) for both x and y.
@@ -98,7 +101,7 @@ if __name__ == '__main__':
             colors.append('blue')
     plt.scatter(points[:, 0], points[:, 1], s=1, c=colors)
     # Draw the query rectangle.
-    rect = patches.Rectangle((query.x, query.y), query.w, query.h, linewidth=1, 
+    rect = patches.Rectangle((query.x, query.y), query.w, query.h, linewidth=1,
                              edgecolor='r', facecolor='none')
     ax.add_patch(rect)
     plt.show()
