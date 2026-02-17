@@ -9,12 +9,20 @@ Tokenization usually consists of a pipeline of 3 stages:
 1. Normalization -> e.g. lowercasing, stemming, removing punctuation, etc.
 2. Pre-tokenization -> e.g. whitespace tokenization into coarse words, newlines, punctuation, etc.
 3. Sub-word tokenization -> e.g. BPE. 
-
 Following GPT-2, we don't do any normalization (stage 1) and do pre-tokenization (stage 2) using
 the same process as GPT-2.
 
 Finally, this is a straightforward implementation mostly meant to understand the algorithm, and 
 therefore highly inefficient.
+
+Experiment results on tinyshakespeare (test string in __main__):
+  merges  token_efficiency  runtime
+       0            1.0000  0.35s
+      10            1.0519  3.48s
+     100            1.5000  28.94s
+   1,000            2.2500  3.63m  (218.07s)
+   5,000            2.3143  14.49m (869.10s)
+  10,000            2.3824  28.62m (1717.24s)
 """
 
 import regex as re
