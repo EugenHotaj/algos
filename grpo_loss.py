@@ -41,7 +41,7 @@ def grpo_loss(
     unbiased_k3 = torch.exp(logps - old_logps) * k3
 
     loss = ((lower_bound - unbiased_k3)  * output_masks).sum() / output_masks.sum(dim=1)
-    return loss.mean()
+    return -loss.mean()
 
 
 if __name__ == "__main__":
